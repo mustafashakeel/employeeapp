@@ -1,3 +1,41 @@
+<?php
+require_once "config.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    echo "  FROM POST ";
+    $name = trim($_POST["name"]);
+    $address = trim($_POST["address"]);
+    $salary = trim($_POST["salary"]);
+
+    echo  $name;
+    echo   $address;
+    echo   $salary;
+
+    if (empty($name) && empty($address) && empty($salary)) {
+        $sql = "INSERT INTO employees (name, address, salary) VALUES (?,?,?)";
+
+        if ($stmt =  mysqli_prepare($link, $sql)) {
+            // Bind the variables to the parameters
+            mysqli_stmt_bind_param($stmt, "sss", $param_name, $param_address, $param_salary);
+
+            $param_name = $name;
+            $param_address = $address;
+            $param_salary = $salary;
+
+            if (mysqli_stmt_execute($stmt)) {
+                echo " Record Added ";
+            } else {
+                echo " Something Went Wrong ";
+            }
+
+            echo "TTTTT ";
+        }
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
